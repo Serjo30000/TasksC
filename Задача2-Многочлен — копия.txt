@@ -1,0 +1,103 @@
+#include<iostream>
+
+using namespace std;
+
+int funpow(int x, int st){
+    int sumst=1;
+    for (int i=0;i<st;i++){
+        sumst*=x;
+    }
+    return sumst;
+}
+
+void funmn(int n, int x, int *P, int *mP){
+    for (int i=0;i<n;i++){
+        mP[i]=funpow(x,i)*P[i];
+    }
+}
+
+void funsum(int maxn,int minn,int *maxP1,int *minP2,int *mP3){
+    for (int i=0;i<maxn;i++){
+        if (minn>i){
+            mP3[i]=maxP1[i]+minP2[i];
+        }
+        else{
+            mP3[i]=maxP1[i];
+        }
+    }
+}
+
+void funcom(int maxn,int minn,int *maxP1,int *minP2,int *mP4){
+    for (int i=0;i<maxn;++i){
+        for (int j=0;j<minn;++j){
+            mP4[i+j]+=maxP1[i]*minP2[j];
+        }
+    }
+}
+
+int main(){
+    int n1=5;
+    int x1=3;
+    int P1[5]={3,7,5,0,9};
+    int mP1[5];
+    funmn(n1,x1,P1,mP1);
+    cout<<"Первый многочлен:"<<"\n";
+    for (int i=0;i<n1;i++){
+        cout<<"x["<<i<<"]="<<mP1[i]<<' ';
+    }
+    cout<<"\n";
+    int n2=3;
+    int x2=4;
+    int P2[3]={9,3,7};
+    int mP2[3];
+    funmn(n2,x2,P2,mP2);
+    cout<<"Второй многочлен:"<<"\n";
+    for (int i=0;i<n2;i++){
+        cout<<"x["<<i<<"]="<<mP2[i]<<' ';
+    }
+    cout<<"\n";
+    int maxn=0;
+    int minn=0;
+    if (n1>=n2){
+        maxn=n1;
+        minn=n2;
+    }
+    else{
+        maxn=n2;
+        minn=n1;
+    }
+    int maxP1[maxn],minP2[minn],mP3[maxn];
+    if (n1>=n2){
+        for (int i=0;i<n1;i++){
+            maxP1[i]=mP1[i];
+        }
+        for (int i=0;i<n2;i++){
+            minP2[i]=mP2[i];
+        }
+    }
+    else{
+        for (int i=0;i<n2;i++){
+            maxP1[i]=mP2[i];
+        }
+        for (int i=0;i<n1;i++){
+            minP2[i]=mP1[i];
+        }
+    }
+    funsum(maxn,minn,maxP1,minP2,mP3);
+    cout<<"Сумма многочленов:"<<"\n";
+    for (int i=0;i<maxn;i++){
+        cout<<"x["<<i<<"]="<<mP3[i]<<' ';
+    }
+    cout<<"\n";
+    int N=maxn+minn-1;
+    int mP4[N];
+    for (int i=0;i<N;i++){
+       mP4[i]=0;
+    }
+    funcom(maxn,minn,maxP1,minP2,mP4);
+    cout<<"Произведение многочленов:"<<"\n";
+    for (int i=0;i<N;i++){
+        cout<<"x["<<i<<"]="<<mP4[i]<<' ';
+    }
+    cout<<"\n";
+}

@@ -1,0 +1,68 @@
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+//Автор: Моисеенко Сергей ИФСТ-15 Дата: 24.02.2022
+struct node//Создание структуры
+{
+  int field;//Поле данных
+  struct node *left;//Левый потомок
+  struct node *right;//Правый потомок
+};
+
+void printt(node *root){//Печать узлов
+    if (root==NULL) return;//Вернуть пустоту
+    printt(root->left);//Печать левых
+    cout<<root->field<<' ';//Вывод
+    printt(root->right);//Печать правых
+}
+
+node *fun(int *arr, int size){//Сортировка деревом
+    node *root,*curr,*New;//Root-корень, Curr-новый корень ,New-очередной элемент
+    root=(node *)calloc(1,sizeof(node));//Создаём корень дерева
+    root->field=arr[0];//Нулевой элемент заносим в корень
+    for (int i=1;i<size;i++){//Цикл по остальным
+        New=(node *)calloc(1,sizeof(node));//Ячейка для очередного элемента
+        New->field=arr[i];//Элемент заносим в очередной элемент
+        curr=root;//Поиск начинаем с корня
+        while (1){//Цикл истинности
+            if (curr->field<arr[i]){//Вправо
+                if (curr->right==NULL){//Потомка нет, то подвешиваем
+                    curr->right=New;
+                    break;
+                }
+                else{//Потомок есть, то продолжаем
+                    curr=curr->right;
+                }
+            }
+            else{//Влево
+                if (curr->left==NULL){//Потомка нет, то подвешиваем
+                    curr->left=New;
+                    break;
+                }
+                else{//Потомок есть, то продолжаем
+                    curr=curr->left;
+                }
+            }
+        }
+    }
+    return root;//Вернуть корень
+}
+
+void freet(node *root){//Удаление узла
+    if (root==NULL)return;//Возвращаем пустоту
+    freet(root->left);//Удаляем левый поток
+    freet(root->right);//Удаляем правый поток
+    free(root);//Освободить память
+}
+
+int main()
+{
+    node *root=0;//корень
+    int size=0;//Длина массива
+    int arr[5]={2,1,6,1,0};//Данный массив
+    size=sizeof(arr)/sizeof(int);//Длина массива
+    root=fun(arr,size);//Сортировка деревом
+    printt(root);//Печать узлов
+    freet(root);//Удаление узла
+}

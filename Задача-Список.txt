@@ -1,0 +1,85 @@
+#include <iostream>
+#include <stdlib.h>
+
+using namespace std;
+
+typedef struct Node {//Создание структуры узла
+    int value;//Значение элемента
+    struct Node *next;//Структура следующего элемента
+} Node;
+
+typedef struct List {//Создание структуры список
+    struct Node *first;//Структура первого элемента
+    struct Node *last;//Структура последнего элемента
+} List;
+
+List * addToList2(List *list, int x){
+    Node *node = new Node;
+    node->value=x;
+    if (list->first==NULL){
+        list->first=node;
+        list->last=node;
+    } 
+    else{
+        list->last->next=node;
+        list->last=node;
+    }
+    return list;
+}
+
+List * addToList(List *list, int x){
+    Node *node = new Node;
+    node->value=x;
+    if (list->first==NULL){
+        list->first=node;
+        list->last=node;
+    } 
+    else{
+        list->last->next=node;
+        list->last=node;
+    }
+    return list;
+}
+
+List* arrToList(int *arr, int size){//Функция создания списка
+    int j=0;//Счётчик для статического массива
+    int f=0;//Значение для сравнения с особым числом
+    int v=5;//Особое число
+    List *list=new List;//Создание нового списка
+    // for (int i=0;i<size;i++) addToList(list, arr[i]);
+    for (int i=0;i<size+2;i++){//Цикл для добавления элементов в список
+        if (i==0){//Добавление элемента в начало
+            int n1=5;//Начальный элемент
+            f=n1;//Значение для сравнения с особым числом
+            addToList2(list, n1);//Функция добавления элемента в список
+        }
+        else if(i==size+1){//Добавление элемента в конец
+            int n2=9;//Конечный элемент
+            f=n2;//Значение для сравнения с особым числом
+            addToList2(list, n2);//Функция добавления элемента в список
+        }
+        else{//Добавление элементов со статического массива
+            f=arr[j];//Значение для сравнения с особым числом
+            addToList2(list, arr[j]);//Функция добавления элемента в список
+            j++;//Увеличение счётчика
+        }
+        if(f==v){//Добавление элемента в случае равенства особому числу
+            addToList2(list, v);//Функция добавления элемента в список
+        }
+    }
+    return list;//Вернуть список
+}
+
+void printList(Node *curr){
+    if (curr==NULL)return;
+    cout<<curr->value<<' ';
+    printList(curr->next);
+}
+
+int main()
+{
+    int arr[5]={3,5,7,2,4};//Статический массив
+    int n=5;//Число элементов
+    List *l=arrToList(arr, n);//Функция создания списка
+    printList(l->first);//Вывод списка
+}

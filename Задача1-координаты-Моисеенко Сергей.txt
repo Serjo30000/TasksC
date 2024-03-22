@@ -1,0 +1,123 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+//Автор: Моисеенко Сергей Дата: 10.02.2022
+
+//Функция нахождения максимальной площади квадрата
+void fun3(int n, float &maxSs, float *X, float *Y,float &maxi1, float &maxi2, float &maxj1, float &maxj2, float &maxk1, float &maxk2, float &maxf1, float &maxf2){
+    float str1=0,str2=0,str3=0,str4=0;//Стороны квадрата
+    float S=0;//Площадь квадрата
+    for (int i=0;i<n;i++){
+        for (int j=0;j<n;j++){
+            for (int k=0;k<n;k++){
+                for (int f=0;f<n;f++){
+                    if (abs(X[j]-X[i])==abs(Y[i]-Y[f]) and abs(X[f]-X[k])==abs(Y[k]-Y[j])){//Условия для квадрата
+                        str1=sqrt((X[j]-X[i])*(X[j]-X[i])+(Y[j]-Y[i])*(Y[j]-Y[i]));//длина первой стороны
+                        str2=sqrt((X[k]-X[j])*(X[k]-X[j])+(Y[k]-Y[j])*(Y[k]-Y[j]));//длина второй стороны
+                        str3=sqrt((X[f]-X[k])*(X[f]-X[k])+(Y[f]-Y[k])*(Y[f]-Y[k]));//длина третьей стороны
+                        str4=sqrt((X[i]-X[f])*(X[i]-X[f])+(Y[i]-Y[f])*(Y[i]-Y[f]));//длина четвертой стороны
+                    }
+                    if ((str1==str2 and str1==str3 and str1==str4 and str2==str3 and str2==str4 and str3==str4)){//Условие против несуществующих квадратов
+                        S=str1*str2;//Формула площади квадрата
+                        if (S>maxSs){
+                            maxSs=S;//Приравнивание площади квадрата к максимальной площади квадрата
+                            maxi1=X[i];
+                            maxi2=Y[i];
+                            maxj1=X[j];
+                            maxj2=Y[j];
+                            maxk1=X[k];
+                            maxk2=Y[k];
+                            maxf1=X[f];
+                            maxf2=Y[f];//Приравниваем координаты для максимального квадрата
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Функция нахождения максимальной площади треугольника
+void fun2(int n, float &maxSt,float *X,float *Y,float &maxi1, float &maxi2, float &maxj1, float &maxj2, float &maxk1, float &maxk2){
+    float str1=0,str2=0,str3=0;//Стороны треугольника
+    float S=0;//Площадь треугольника
+    float p=0;//Полупериметр треугольника
+    for (int i=0;i<n;i++){
+        for (int j=0;j<n;j++){
+            for (int k=0;k<n;k++){
+                str1=sqrt((X[i]-X[j])*(X[i]-X[j])+(Y[i]-Y[j])*(Y[i]-Y[j]));//длина первой стороны
+                str2=sqrt((X[i]-X[k])*(X[i]-X[k])+(Y[i]-Y[k])*(Y[i]-Y[k]));//длина второй стороны
+                str3=sqrt((X[j]-X[k])*(X[j]-X[k])+(Y[j]-Y[k])*(Y[j]-Y[k]));//длина третьей стороны
+                if (!(str1>=str2+str3 and str2>=str1+str3 and str3>=str1+str3)){//Условие против несуществующих треугольников
+                    p=(str1+str2+str3)/2;
+                    S=sqrt(p*(p-str1)*(p-str2)*(p-str3));//Нахождение площади треугольника по формуле Герона
+                    if (S>maxSt){
+                        maxSt=S;//Приравнивание площади треугольника к максимальной площади треугольника
+                        maxi1=X[i];
+                        maxi2=Y[i];
+                        maxj1=X[j];
+                        maxj2=Y[j];
+                        maxk1=X[k];
+                        maxk2=Y[k];//Приравниваем координаты для максимального треугольника
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Функция нахождения пар точек с максимальным расстоянием
+void fun1(int n, float *X, float *Y,float &maxi1, float &maxj1, float &maxi2, float &maxj2, float &maxR){
+    for (int i=0;i<n;i++){
+        for (int j=0;j<n;j++){
+            if (maxj1>X[j]){
+                    maxj1=X[j];
+            }//Нахождение минимального X
+            if (maxj2>Y[j]){
+                maxj2=Y[j];
+            }//Нахождение минимального Y
+            if (maxi1<X[i]){
+                maxi1=X[i];
+            }//Нахождение максимального X
+            if (maxi2<Y[i]){
+                maxi2=Y[i];
+            }//Нахождение максимального Y
+        }
+        maxR=sqrt((maxi1-maxj1)*(maxi1-maxj1)+(maxi2-maxj2)*(maxi2-maxj2));//Формула нахождения расстояния
+    }
+}
+
+int main()
+{
+    int n=4;//Количество точек координат
+    float X[n]={2,4,5,8},Y[n]={1,6,4,5};//Значения точек координат
+    //1 подпункт
+    float maxR=0;//Максимальное расстояние
+    float maxi1=-999,maxj1=999,maxi2=-999,maxj2=999;//Координаты для максимального расстояния
+    fun1(n,X,Y,maxi1,maxj1,maxi2,maxj2,maxR);//Функция нахождения пар точек с максимальным расстоянием
+    if (maxR!=0){
+        cout<<"Первая пара "<<"X1 "<<maxj1 <<" Y1 "<<maxj2<<" Вторая пара "<<"X2 "<<maxi1<<" Y2 "<<maxi2<<" Максимальное расстояние "<<maxR<<"\n";//Вывод найденных пар точек с максимальным расстоянием
+    }
+    //2 подпункт
+    float maxSt=0;//Максимальная площадь треугольника
+    maxi1=0,maxi2=0,maxj1=0,maxj2=0;
+    float maxk1=0,maxk2=0;//Координаты для максимальной площади треугольника
+    fun2(n,maxSt,X,Y,maxi1,maxi2,maxj1,maxj2,maxk1,maxk2);//Функция по нахождению максимальной площади треугольника
+    if (maxSt!=0){
+        cout<<"Первая пара "<<"X1 "<<maxj1 <<" Y1 "<<maxj2<<" Вторая пара "<<"X2 "<<maxi1<<" Y2 "<<maxi2<<" Третья пара "<<"X3 "<<maxk1<<" Y3 "<<maxk2<<" Максимальная площадь треугольника "<<maxSt<<"\n";//Вывод максимальной площади треугольника
+    }
+    else{
+        cout<<"Такого треугольника не существует";
+    }
+    //3 подпункт
+    float maxSs=0;//Максимальная площадь квадрата
+    maxi1=0,maxi2=0,maxj1=0,maxj2=0,maxk1=0,maxk2=0;
+    float maxf1=0,maxf2=0;//Координаты для максимальной площади квадрата
+    fun3(n,maxSs,X,Y,maxi1,maxi2,maxj1,maxj2,maxk1,maxk2,maxf1,maxf2);
+    if (maxSs!=0){
+        cout<<"Первая пара "<<"X1 "<<maxi1 <<" Y1 "<<maxi2<<" Вторая пара "<<"X2 "<<maxj1<<" Y2 "<<maxj2<<" Третья пара "<<"X3 "<<maxk1<<" Y3 "<<maxk2<<" Четвертая пара "<<"X4 "<<maxf1<<" Y4 "<<maxf2<<" Максимальная площадь квадрата "<<maxSs<<"\n";//Вывод максимальной площади квадрата
+    }
+    else{
+        cout<<"Такого квадрата не существует";
+    }
+}

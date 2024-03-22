@@ -1,0 +1,34 @@
+Programming is a way of sending
+instructions to the computer. 
+To create these instructions,
+programmers use programming 
+languages to create source
+code, and the source code
+is then converted into machine 
+(or object) code, the only 
+language that a computer
+understands. People, however, 
+have difficulty understanding
+machine code. As a result, 
+first assembly languages
+and then higher-level
+languages were developed. 
+Programming languages require 
+that information be provided
+in a certain order and structure, 
+that symbols be used, and sometimes
+even that punctuation Be used. These rules are called the syntax of the programming language, and they vary a great deal from one language 
+to another. Categories of Languages. Based on evolutionary history, programming languages fall into one
+of the following three broad categories: Machine Languages. Machine languages consist of the 0s and 1s 
+of the binary number system and are defined by hardware design. A computer understands only its machine
+language – the commands in its instruction set that instruct the computer to
+perform elementary operations such as loading, storing, adding, and subtracting.
+Assembly Languages. These languages were developed by using Englishlike mnemonics. 
+Programmers worked in text editors to create their source files. To convert the source
+files into object code, researchers created translator programs called assemblers. 
+Assemblylanguages are still much easier to use than machine language.
+Higher-Level Languages. These languages use syntax that 
+is close to human language, they use familiar words instead of communicating in digits. To express computer operations,
+they use operators, such as the plus or minus sign, that are the familiar components of mathematics.   
+As a result, reading, writing, and understanding computer programs is easier. Machine languages
+are considered first-generation languages, and assembly languages are considered second-generationn
